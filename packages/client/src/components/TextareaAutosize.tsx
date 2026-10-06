@@ -12,6 +12,7 @@ import type { TextareaAutosizeProps } from 'react-textarea-autosize';
 import type { FocusOutline } from './Focus';
 import { focusOutlineVariants } from './Focus';
 import { chatDirectionAtom } from '~/store';
+import { touchTextFloor } from './Field';
 
 type BaseTextareaAutosizeProps = Omit<TextareaAutosizeProps, 'aria-label' | 'aria-labelledby'> & {
   focusOutline?: FocusOutline;
@@ -41,9 +42,12 @@ export const TextareaAutosize: ForwardRefExoticComponent<
       <ReactTextareaAutosize
         dir={chatDirection}
         {...props}
-        className={
-          cx(focusOutlineVariants({ focusOutline }), invalidBorder, className) || undefined
-        }
+        className={cx(
+          focusOutlineVariants({ focusOutline }),
+          invalidBorder,
+          touchTextFloor,
+          className,
+        )}
         ref={ref}
       />
     );

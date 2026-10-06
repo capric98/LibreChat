@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { SecretInput } from './SecretInput';
+import { touchTextFloor } from './Field';
 
 jest.mock('./MorphIcon', () => {
   const { createMorphIconMock } = jest.requireActual('../test/mockMorphIcon');
@@ -50,7 +51,7 @@ describe('SecretInput', () => {
   });
 
   /** A secret sits beside plain inputs in forms, so it composes the shared field and takes the
-   *  theme's field height and focus treatment with them. */
+   *  theme's field height, focus treatment and touch text floor with them. */
   it('draws the shared field with its height and focus roles', () => {
     render(<SecretInput value="secret" showCopy readOnly aria-label="token" />);
     const field = screen.getByLabelText('token');
@@ -60,6 +61,7 @@ describe('SecretInput', () => {
       'h-theme-field',
       'focus-visible:ring-focus-control',
       'theme-field-border:focus:border-border-field-focus',
+      touchTextFloor,
       'pr-20',
     );
     expect(field).not.toHaveClass('h-10');

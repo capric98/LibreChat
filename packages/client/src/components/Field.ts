@@ -1,6 +1,14 @@
 import { disabledFillClasses } from '~/utils/theme';
 
 /**
+ * iOS zooms the page into a focused text field whose type is under 16px, and an installed PWA
+ * never zooms back out. Wherever touch is reachable, a field takes the theme's base type size
+ * instead, held at 16px or more so a UI scale below 1 cannot pull it back under the threshold.
+ * A variant set larger than the base restates its size under `touch:` so this does not shrink it.
+ */
+export const touchTextFloor = 'touch:text-[length:max(var(--theme-text-base,1rem),16px)]';
+
+/**
  * The shared appearance of a form control: border, radius, type scale and focus
  * treatment. Owned here so `Input`, `Textarea`, and the select/combobox triggers
  * that have to sit beside them in a form cannot drift apart as the theme evolves.
@@ -13,7 +21,7 @@ import { disabledFillClasses } from '~/utils/theme';
  * whose `fieldFillStyle` is `fill` paints the field in `field-fill`, which a disabled field keeps
  * under the pointer too; by default it stays clear.
  */
-export const fieldBase: string = `lc-field flex w-full rounded-lg border border-border-control px-3 py-theme-field-y text-sm text-field-text theme-field-fill:bg-field-fill theme-field-fill:disabled:hover:bg-field-fill placeholder:text-text-secondary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus-control theme-field-border:focus:border-border-field-focus theme-field-border:focus-visible:ring-1 theme-field-border:focus-visible:ring-border-field-focus disabled:cursor-not-allowed disabled:opacity-50 ${disabledFillClasses}`;
+export const fieldBase: string = `lc-field flex w-full rounded-lg border border-border-control px-3 py-theme-field-y text-sm ${touchTextFloor} text-field-text theme-field-fill:bg-field-fill theme-field-fill:disabled:hover:bg-field-fill placeholder:text-text-secondary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus-control theme-field-border:focus:border-border-field-focus theme-field-border:focus-visible:ring-1 theme-field-border:focus-visible:ring-border-field-focus disabled:cursor-not-allowed disabled:opacity-50 ${disabledFillClasses}`;
 
 /** A single-line control sized to sit in a form row, matching `Input`. */
 export const fieldControl: string = `${fieldBase} h-theme-field bg-transparent`;

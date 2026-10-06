@@ -1948,6 +1948,15 @@ html {
   max-width: none;
 }
 
+/* iOS zooms into a focused field whose text is under 16px and an installed PWA never zooms back
+   out, so wherever touch is reachable (the `touch:` variant's query) the editor holds a 16px floor.
+   This rule is unlayered like the one above, which a utility class could not override. */
+@media (any-pointer: coarse) {
+  .message-editor-text {
+    font-size: max(16px, var(--markdown-font-size, var(--font-size-base)));
+  }
+}
+
 .message-content pre code {
   font-size: calc(0.9 * var(--markdown-font-size, var(--font-size-base)));
 }
